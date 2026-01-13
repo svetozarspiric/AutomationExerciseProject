@@ -3,8 +3,6 @@ package Tests;
 import Base.BaseTest;
 import Pages.HomePage;
 import Pages.ProductsPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,21 +26,26 @@ public class SearchProductTest extends BaseTest {
         productPage = new ProductsPage(driver);
     }
 
-    @Test
+    @Test(priority = 1)
     public void userCanSearchProducts() {
         clickOnItem(homePage.getProductsNavLink());
 
+        // Provera da je korisnik preusmeren na Products stranicu
         String expectedURL = "https://automationexercise.com/products";
         Assert.assertEquals(driver.getCurrentUrl(), expectedURL);
 
+        // Unos naziva proizvoda u search polje
         productPage.inputSearchProductField("Madame Top For Women");
         productPage.clickOnSearchButton();
 
+        // Ocekivani naziv proizvoda koji bi trebao da se pojavi
         String expectedProductName = "Madame Top For Women";
-        WebElement madameTopForWomen = driver.findElement(By.cssSelector(".productinfo.text-center"));
-        String actualProductName = madameTopForWomen.findElement(By.tagName("p")).getText();
-        wait.until(ExpectedConditions.visibilityOf(madameTopForWomen));
-        Assert.assertEquals(actualProductName, expectedProductName);
+
+        // Cekanje da rezultat pretrage bude vidljiv
+        wait.until(ExpectedConditions.visibilityOf(productPage.getSearchedProduct()));
+
+        // Provera da se prikazani proizvod poklapa sa ocekivanim
+        Assert.assertEquals(productPage.getSearchedProductName(), expectedProductName);
 
     }
 }

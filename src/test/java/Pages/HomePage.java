@@ -15,36 +15,33 @@ import java.util.List;
 public class HomePage {
 
     WebDriver driver;
-    WebDriverWait wait;
-    List<WebElement> listOfProducts;
-    WebElement contiunueShoppingButton;
-    WebElement viewCartLinkText;
-    WebElement productsNavLink;
-    WebElement contactUsNavLink;
-
-    
 
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
 
+    // Lista svih proizvoda prikazanih na Home stranici
     public List<WebElement> getListOfProducts() {
         return driver.findElements(By.cssSelector(".productinfo.text-center"));
     }
 
+    // Dugme nakon dodavanja proizvoda u korpu
     public WebElement getContiunueShoppingButton() {
         return driver.findElement(By.cssSelector(".btn.btn-success.close-modal.btn-block"));
     }
 
+    // Link koji se pojavljuje nakon dodavanja proizvoda
     public WebElement getViewCartLinkText() {
         return driver.findElement(By.cssSelector("div.modal-content a[href='/view_cart']"));
     }
 
+    // Link za Products stranicu
     public WebElement getProductsNavLink() {
         return driver.findElement(By.cssSelector("a[href='/products']"));
     }
 
+    // Link za Contact Us stranicu
     public WebElement getContactUsNavLink() {
         return driver.findElement(By.cssSelector("a[href='/contact_us']"));
     }
@@ -52,6 +49,7 @@ public class HomePage {
 
     //----------------------------------------------------
 
+    // Klikce na proizvod na osnovu naziva proizvoda
     public void clickOnProduct(String productName) {
         for (int i = 0; i < getListOfProducts().size(); i++) {
             WebElement product = getListOfProducts().get(i).findElement(By.tagName("p"));
@@ -63,10 +61,12 @@ public class HomePage {
         }
     }
 
+    // Klikce na "View Cart" link iz modala
     public void clickOnViewCartLinkText() {
        getViewCartLinkText().click();
     }
 
+    // Klikce na "View Product" dugme za proizvod sa zadatim imenom
     public void clickOnViewProduct(String productName) {
         for (int i = 0; i < getListOfProducts().size(); i++) {
             WebElement productNameElement = getListOfProducts().get(i).findElement(By.tagName("p"));
@@ -80,6 +80,7 @@ public class HomePage {
         }
     }
 
+    // Klikce na "Contact Us" link u navigacionom meniju
     public void clickOnContactUsNavLink() {
         getContactUsNavLink().click();
     }

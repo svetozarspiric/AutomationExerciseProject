@@ -26,22 +26,32 @@ public class RemoveFromCartTest extends BaseTest {
         cartPage = new CartPage(driver);
     }
 
-    @Test
+    @Test(priority = 1)
     public void userCanRemoveItemFromCart() {
         homePage.clickOnProduct("Blue Top");
 
+        // Cekanje da dugme za nastavak kupovine bude klikabilno
         wait.until(ExpectedConditions.elementToBeClickable(homePage.getContiunueShoppingButton()));
+
+        // Provera da je dugme za nastavak kupovine prikazan
         Assert.assertTrue(homePage.getContiunueShoppingButton().isDisplayed());
 
+        // cekanje da se cart modal učita u DOM
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("cartModal")));
+
+        // Cekanje da "View Cart" link postane klikabilan
         wait.until(ExpectedConditions.elementToBeClickable(homePage.getViewCartLinkText()));
         homePage.clickOnViewCartLinkText();
 
+        // Provera da je proizvod uspešno dodat u korpu
         Assert.assertTrue(cartPage.getFirstProductInCart().isDisplayed());
 
         cartPage.clickOnDeleteItemButton();
 
+        // Cekanje da se pojavi poruka da je korpa prazna
         wait.until(ExpectedConditions.visibilityOf(cartPage.getEmptyCartText()));
+
+        // Provera da je poruka o praznoj korpi prikazana
         Assert.assertTrue(cartPage.getEmptyCartText().isDisplayed());
 
     }

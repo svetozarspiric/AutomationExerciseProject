@@ -1,9 +1,9 @@
 package Tests;
 
 import Base.BaseTest;
+import Pages.CartPage;
 import Pages.HomePage;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,6 +15,8 @@ import java.time.Duration;
 
 public class AddToCartTest extends BaseTest {
 
+    // Priprema test okruženja pre svakog testa
+    // Svaki test se otvara u posebnom browseru (vazi za sve testove u projektu)
     @BeforeMethod
     public void pageSetUp() {
         driver = new ChromeDriver();
@@ -23,19 +25,26 @@ public class AddToCartTest extends BaseTest {
         driver.navigate().to("https://automationexercise.com/");
 
         homePage = new HomePage(driver);
+        cartPage = new CartPage(driver);
     }
 
-    @Test
+    @Test(priority = 1)
     public void userCanAddOneProductToCart() {
+
+        // Naziv proizvoda koji se dodaje u korpu
         String productName = "Frozen Tops For Kids";
         homePage.clickOnProduct(productName);
+
+        // Cekanje da se pojavi dugme "Continue Shopping" nakon dodavanja proizvoda
         wait.until(ExpectedConditions.elementToBeClickable(homePage.getContiunueShoppingButton()));
 
+        // Provera da je dugme za nastavak kupovine prikazan
         Assert.assertTrue(homePage.getContiunueShoppingButton().isDisplayed());
 
         homePage.clickOnViewCartLinkText();
 
-        Assert.assertEquals(driver.findElement(By.cssSelector(".cart_description h4 a")).getText(), productName);
+        // Provera da se u korpi nalazi proizvod koji je dodat
+        Assert.assertEquals(cartPage.getAddedProduct().getText(), productName);
 
 
     }

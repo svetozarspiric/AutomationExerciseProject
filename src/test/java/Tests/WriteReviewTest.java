@@ -24,16 +24,20 @@ public class WriteReviewTest extends BaseTest {
         productReviewPage = new ProductReviewPage(driver);
     }
 
-    @Test
+    @Test(priority = 1)
     public void userCanWriteReviewForProduct() {
         homePage.clickOnViewProduct("Sleeves Printed Top - White");
+
+        // Provera da je poruka za pisanje recenzije vidljiva
         Assert.assertTrue(productReviewPage.getWriteYourReviewMessage().isDisplayed());
 
+        // Provera da je sekcija za pisanje recenzije vidljiva
         productReviewPage.inputNameField("Pera");
         productReviewPage.inputEmailField("pera@mail.com");
         productReviewPage.inputReviewField("Mnogo lepo !!");
-        productReviewPage.clickOnSubbmitButton();
+        productReviewPage.clickOnSubmitButton();
 
+        // Provera da se prikazuje poruka sa poslatom recenzijom
         Assert.assertTrue(productReviewPage.getReviewMessage().isDisplayed());
     }
 
